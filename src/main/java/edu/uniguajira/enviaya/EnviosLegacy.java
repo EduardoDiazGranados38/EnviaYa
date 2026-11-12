@@ -1,6 +1,7 @@
 package edu.uniguajira.enviaya;
 
 public final class EnviosLegacy {
+    private static final double PMAX = 45.0;
     private static final double L1 = 3.0;
     private static final double L2 = 10.0;
     private static final double RECARGO_RURAL = 0.10;
@@ -12,7 +13,7 @@ public final class EnviosLegacy {
     }
 
     public static int calc(double p, String z, String c, int d, String cup, boolean flag) {
-        if (p <= 0 || p > 50) {
+        if (p <= 0 || p > PMAX) {
             throw new IllegalArgumentException("peso invalido");
         }
 
