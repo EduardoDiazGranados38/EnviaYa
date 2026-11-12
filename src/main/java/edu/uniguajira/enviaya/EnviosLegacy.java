@@ -4,65 +4,81 @@ public final class EnviosLegacy {
     private static final double PMAX = 45.0;
     private static final double L1 = 3.0;
     private static final double L2 = 10.0;
-    private static final double RECARGO_RURAL = 0.10;
-    private static final double RECARGO_NACIONAL = 0.40;
-    private static final double DESC_VIP = 0.10;
+    private static final int DIA_MINIMO = 1;
+    private static final int DIA_MAXIMO = 7;
+    private static final int INICIO_FIN_DE_SEMANA = 6;
+    private static final double TARIFA_TRAMO_UNO = 6000.0;
+    private static final double TARIFA_TRAMO_DOS = 9000.0;
+    private static final double TARIFA_POR_KILO_ADICIONAL = 800.0;
     private static final double RECARGO_FINDE = 2000.0;
+    private static final double DESC_FRECUENTE = 0.05;
+    private static final double DESC_VIP = 0.10;
+    private static final double DESC_CUPON = 0.10;
+    private static final double TARIFA_MINIMA = 5000.0;
+    private static final double INCREMENTO_REDONDEO = 100.0;
 
     private EnviosLegacy() {
     }
 
-    public static int calc(double p, String z, String c, int d, String cup, boolean flag) {
-        if (p <= 0 || p > PMAX) {
+    public static int calc(double weight, String zone, String customer, int day, String coupon) {
+        validateWeight(weight);
+        ZoneStrategy zoneStrategy = ZoneStrategyFactory.forZone(zone);
+        validateDay(day);
+
+        double total = baseTariff(weight);
+        total = zoneStrategy.applySurcharge(total);
+        total = applyWeekendSurcharge(total, day);
+        total = applyCustomerDiscount(total, customer);
+        total = applyCouponDiscount(total, coupon);
+        total = Math.max(total, TARIFA_MINIMA);
+
+        return roundToHundred(total);
+    }
+
+    private static void validateWeight(double weight) {
+        if (weight <= 0 || weight > PMAX) {
             throw new IllegalArgumentException("peso inválido");
         }
+    }
 
-        double t;
-        if (p <= L1) {
-            t = 6000;
-        } else if (p <= L2) {
-            t = 9000;
-        } else {
-            t = 9000 + (p - L2) * 800;
-        }
-
-        if ("urbana".equals(z)) {
-            t = t;
-        } else if ("rural".equals(z)) {
-            t = t + t * RECARGO_RURAL;
-        } else if ("nacional".equals(z)) {
-            t = t + t * RECARGO_NACIONAL;
-        } else {
-            throw new IllegalArgumentException("zona inválida");
-        }
-
-        if (d < 1 || d > 7) {
+    private static void validateDay(int day) {
+        if (day < DIA_MINIMO || day > DIA_MAXIMO) {
             throw new IllegalArgumentException("día inválido");
         }
+    }
 
-        if (d >= 6) {
-            t = t + RECARGO_FINDE;
+    private static double baseTariff(double weight) {
+        if (weight <= L1) {
+            return TARIFA_TRAMO_UNO;
         }
+        if (weight <= L2) {
+            return TARIFA_TRAMO_DOS;
+        }
+        return TARIFA_TRAMO_DOS + (weight - L2) * TARIFA_POR_KILO_ADICIONAL;
+    }
 
-        if ("frecuente".equals(c)) {
-            t = t - t * 0.05;
-        }
-        if ("vip".equals(c)) {
-            t = t - t * DESC_VIP;
-        }
-        if (cup != null) {
-            if ("ENVIO10".equals(cup)) {
-                t = t - t * 0.10;
-            }
-        }
+    private static double applyWeekendSurcharge(double total, int day) {
+        return day >= INICIO_FIN_DE_SEMANA ? total + RECARGO_FINDE : total;
+    }
 
-        if (t < 5000) {
-            t = 5000;
+    private static double applyCustomerDiscount(double total, String customer) {
+        if ("frecuente".equals(customer)) {
+            total = total - total * DESC_FRECUENTE;
         }
+        if ("vip".equals(customer)) {
+            total = total - total * DESC_VIP;
+        }
+        return total;
+    }
 
-        if (flag) {
-            System.out.println("costo: " + t);
+    private static double applyCouponDiscount(double total, String coupon) {
+        if ("ENVIO10".equals(coupon)) {
+            return total - total * DESC_CUPON;
         }
-        return (int) (Math.round(t / 100.0) * 100);
+        return total;
+    }
+
+    private static int roundToHundred(double total) {
+        return (int) (Math.round(total / INCREMENTO_REDONDEO) * INCREMENTO_REDONDEO);
     }
 }

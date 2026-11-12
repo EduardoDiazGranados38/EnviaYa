@@ -5,12 +5,11 @@ evolución de un calculador de costos de envío.
 
 ## Estado
 
-El repositorio contiene el borrador documentado de las Partes 1–5, la
-traducción Java del código heredado y la primera suite automatizada de JUnit.
-La línea base heredada reproduce fallos intencionales que están documentados,
-con capturas de ejecución y cobertura. Las correcciones DEF-01 a DEF-06 se
-mantienen en ramas de trabajo y la regresión de 44 pruebas pasa en
-`fix/DEF-06`.
+El informe documenta las Partes 1–6. La línea base heredada conserva sus
+fallos intencionales en `v1.0.0`; las correcciones DEF-01 a DEF-06 están
+integradas en `main`. La refactorización con Estrategia está en la rama
+`refactor/estrategia`, con 48 pruebas aprobadas. La Parte 7 está en progreso;
+la Parte 8 está pendiente.
 
 ## Parámetros personalizados
 
@@ -31,12 +30,16 @@ Código estudiantil: `182310040`
 
 ## Documentación
 
-- [Avance del informe: Partes 1–5](docs/avance-parcial.md)
+- [Avance del informe: Partes 1–6](docs/avance-parcial.md)
+- [Historial de cambios](CHANGELOG.md)
+- [Borrador de notas de versión 2.0.0](docs/notas-version-2.0.0.md)
 
 ## Próximos pasos
 
-1. Refactorizar el cálculo manteniendo las 44 pruebas en verde.
-2. Implementar y probar la evolución de zona insular.
+1. Integrar y versionar la refactorización como `2.0.0` por el cambio de
+   interfaz al retirar `flag`.
+2. Escribir primero las pruebas de la zona insular e implementarla como cambio
+   menor; documentar impacto, nueva versión y evidencias.
 
 El repositorio local está vinculado con GitHub. La etiqueta `v1.0.0` identifica
 la traducción Java del código heredado, todavía sin corregir.
@@ -50,4 +53,6 @@ mvn test
 ```
 
 En `v1.0.0` algunas pruebas fallan a propósito para revelar defectos; el
-resultado de esa línea base no es el resultado final del proyecto.
+resultado de esa línea base no es el resultado final del proyecto. En la rama
+`refactor/estrategia`, `mvn clean verify` ejecuta la suite actual y genera el
+informe JaCoCo.

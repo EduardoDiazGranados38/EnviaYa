@@ -80,14 +80,8 @@ class EnviosLegacyTest {
     @Test
     void whiteBoxWeightGuardChecksUpperLegacyLimit() {
         assertThrows(IllegalArgumentException.class,
-                () -> EnviosLegacy.calc(51, "urbana", "normal", 1, null, false),
+                () -> EnviosLegacy.calc(51, "urbana", "normal", 1, null),
                 "WB-15");
-    }
-
-    @Test
-    void whiteBoxFlagBranchPrintsCost() {
-        assertEquals(9000, EnviosLegacy.calc(4, "urbana", "normal", 1, null, true),
-                "WB-14");
     }
 
     private static int calculate(TestCase testCase) {
@@ -96,8 +90,7 @@ class EnviosLegacyTest {
                 testCase.zone,
                 testCase.customer,
                 testCase.day,
-                testCase.coupon,
-                false);
+                testCase.coupon);
     }
 
     private static List<TestCase> cases() {
