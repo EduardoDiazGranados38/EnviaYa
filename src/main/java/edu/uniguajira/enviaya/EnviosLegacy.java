@@ -36,6 +36,10 @@ public final class EnviosLegacy {
             throw new IllegalArgumentException("zona inválida");
         }
 
+        if (d < 1 || d > 7) {
+            throw new IllegalArgumentException("día inválido");
+        }
+
         if (d > 6) {
             t = t + RECARGO_FINDE;
         }
