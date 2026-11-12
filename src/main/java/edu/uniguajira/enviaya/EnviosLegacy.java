@@ -40,7 +40,7 @@ public final class EnviosLegacy {
             throw new IllegalArgumentException("día inválido");
         }
 
-        if (d > 6) {
+        if (d >= 6) {
             t = t + RECARGO_FINDE;
         }
 

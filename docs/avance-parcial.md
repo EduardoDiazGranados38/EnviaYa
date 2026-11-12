@@ -590,6 +590,7 @@ históricos.
 | `fix/DEF-02` | DEF-02 | El error de peso ahora usa exactamente `peso inválido`. | CP-01 y CP-02 pasan; la regresión completa ejecuta 44 pruebas: 24 pasan y 20 siguen fallando por defectos pendientes. |
 | `fix/DEF-03` | DEF-03 | Se rechazan las zonas distintas de `urbana`, `rural` y `nacional`. | CP-05 pasa; la regresión completa ejecuta 44 pruebas: 25 pasan y 19 siguen fallando por defectos pendientes. |
 | `fix/DEF-04` | DEF-04 | Se rechazan los días menores que 1 o mayores que 7. | CP-06 y CP-07 pasan; la regresión completa ejecuta 44 pruebas: 27 pasan y 17 siguen fallando por defectos pendientes. |
+| `fix/DEF-05` | DEF-05 | El recargo de fin de semana aplica los días 6 y 7. | CP-15, CP-16 y CP-17 pasan; la regresión completa ejecuta 44 pruebas: 36 pasan y 8 siguen fallando por DEF-06 (redondeo). |
 
 La tabla de la sección 5.2 conserva la medición de la línea base heredada
 (21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a
