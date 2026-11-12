@@ -1,6 +1,7 @@
 package edu.uniguajira.enviaya;
 
 public final class EnviosLegacy {
+    private static final double PMAX = 45.0;
     private static final double L1 = 3.0;
     private static final double L2 = 10.0;
     private static final double RECARGO_RURAL = 0.10;
@@ -12,8 +13,8 @@ public final class EnviosLegacy {
     }
 
     public static int calc(double p, String z, String c, int d, String cup, boolean flag) {
-        if (p <= 0 || p > 50) {
-            throw new IllegalArgumentException("peso invalido");
+        if (p <= 0 || p > PMAX) {
+            throw new IllegalArgumentException("peso inválido");
         }
 
         double t;
@@ -31,9 +32,15 @@ public final class EnviosLegacy {
             t = t + t * RECARGO_RURAL;
         } else if ("nacional".equals(z)) {
             t = t + t * RECARGO_NACIONAL;
+        } else {
+            throw new IllegalArgumentException("zona inválida");
         }
 
-        if (d > 6) {
+        if (d < 1 || d > 7) {
+            throw new IllegalArgumentException("día inválido");
+        }
+
+        if (d >= 6) {
             t = t + RECARGO_FINDE;
         }
 
@@ -56,6 +63,6 @@ public final class EnviosLegacy {
         if (flag) {
             System.out.println("costo: " + t);
         }
-        return (int) (t / 100) * 100;
+        return (int) (Math.round(t / 100.0) * 100);
     }
 }
