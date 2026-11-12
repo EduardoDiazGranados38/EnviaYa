@@ -5,9 +5,9 @@ evolución de un calculador de costos de envío.
 
 ## Estado
 
-El repositorio contiene el borrador documentado de las Partes 1–4 y la
-traducción Java del código heredado. Las pruebas automatizadas, el reporte de
-defectos y la medición de cobertura están en proceso.
+El repositorio contiene el borrador documentado de las Partes 1–5, la
+traducción Java del código heredado y la primera suite automatizada de JUnit.
+La línea base heredada reproduce fallos intencionales que están documentados.
 
 ## Parámetros personalizados
 
@@ -28,13 +28,25 @@ Código estudiantil: `182310040`
 
 ## Documentación
 
-- [Avance del informe: Partes 1–4](docs/avance-parcial.md)
+- [Avance del informe: Partes 1–5](docs/avance-parcial.md)
 
 ## Próximos pasos
 
-1. Automatizar los casos contra la línea base `v1.0.0`.
-2. Registrar defectos antes de corregirlos; después refactorizar y probar la
+1. Corregir los defectos registrados en la rama correspondiente y mantener la
+   regresión en verde.
+2. Refactorizar y probar la
    evolución de zona insular.
 
 El repositorio local está vinculado con GitHub. La etiqueta `v1.0.0` identifica
 la traducción Java del código heredado, todavía sin corregir.
+
+## Ejecutar las pruebas
+
+Con JDK 8 o posterior y Maven instalados:
+
+```text
+mvn test
+```
+
+En `v1.0.0` algunas pruebas fallan a propósito para revelar defectos; el
+resultado de esa línea base no es el resultado final del proyecto.

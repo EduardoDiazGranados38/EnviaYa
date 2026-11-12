@@ -5,12 +5,11 @@
 **Proyecto:** EnvíaYa
 
 **Código estudiantil:** 182310040
-**Estado:** borrador de diseño; las pruebas aún no se han ejecutado.
+**Estado:** Partes 1–4 documentadas; Parte 5 ejecutada contra la línea base heredada.
 
-> Este documento consolida las Partes 1–4 elaboradas hasta ahora. Los
-> resultados son expectativas calculadas a mano, no resultados de ejecución.
-> La versión heredada debe traducirse a Java y validarse antes de afirmar que
-> un defecto fue reproducido.
+> Los resultados de la Parte 3 son expectativas calculadas manualmente. La
+> Parte 5 registra la ejecución real contra la traducción Java del código
+> heredado.
 
 ## Parte 1 — Requisitos y criterios de aceptación
 
@@ -469,12 +468,109 @@ falso y `p>50` verdadero, con 51 kg) y WB-01 (ambas falsas).
 
 La suite WB-01–WB-14 está diseñada para cubrir instrucciones y ambas ramas de
 las decisiones; WB-15 comprueba además la segunda condición atómica. WB-16–20
-contrastan requisitos concretos. La cobertura real se medirá con JaCoCo en la
-traducción Java; el diseño no constituye evidencia de ejecución.
+contrastan requisitos concretos. La cobertura real se mide en la Parte 5.
 
-El flujo heredado sugiere discrepancias que deben reproducirse: límite de 50 kg
+El flujo heredado muestra discrepancias que se comprobaron en la Parte 5:
+límite de 50 kg
 en vez de 45 kg; zona desconocida que continúa sin recargo; ausencia de
 validación del rango de días; recargo de fin de semana solo para el día 7; y
 truncamiento en vez de redondeo HALF_UP. `flag` controla una impresión que se
-eliminará al refactorizar. Estas observaciones aún no son defectos confirmados
-por ejecución.
+eliminará al refactorizar.
+
+## Parte 5 — Automatización, ejecución y defectos
+
+### 5.1 Automatización
+
+El código heredado se tradujo a Java en `EnviosLegacy.calc`, conservando sus
+reglas y defectos. La traducción se compiló antes de probarse. Los 42 casos CP
+de caja negra se automatizaron con JUnit Jupiter; se agregaron dos casos de
+caja blanca (`WB-14` para `flag=true` y `WB-15` para el límite heredado de 50
+kg).
+
+Herramientas usadas:
+
+- Eclipse Temurin JDK 8u512.
+- Apache Maven 3.9.9.
+- JUnit Jupiter 5.10.2.
+- JaCoCo 0.8.12.
+
+Comando de ejecución normal:
+
+```text
+mvn test
+```
+
+La línea base debe fallar según lo esperado por sus defectos. Para que JaCoCo
+generara el informe pese a esos fallos, se ejecutó:
+
+```text
+mvn clean verify -Dmaven.test.failure.ignore=true
+```
+
+**Importante:** esta opción permite completar el ciclo y producir cobertura;
+el resultado de Maven no significa que las pruebas hayan pasado. El reporte de
+JUnit registra los fallos.
+
+Archivos de informe generados localmente:
+
+- JaCoCo HTML: `target/site/jacoco/index.html`.
+- JUnit de texto: `target/surefire-reports/edu.uniguajira.enviaya.EnviosLegacyTest.txt`.
+- JUnit XML: `target/surefire-reports/TEST-edu.uniguajira.enviaya.EnviosLegacyTest.xml`.
+
+### 5.2 Resultado contra el código heredado
+
+| Grupo | Ejecutadas | Pasaron | Fallaron | Aprobación |
+|---|---:|---:|---:|---:|
+| Caja negra CP-01–CP-42 | 42 | 19 | 23 | 45,24 % |
+| Caja blanca WB-14 y WB-15 | 2 | 2 | 0 | 100 % |
+| Total JUnit | 44 | 21 | 23 | 47,73 % |
+
+No hubo errores de ejecución ni pruebas omitidas. La línea base no cumple R1,
+R2, R5 y R8; por eso los fallos forman parte del análisis y no son una
+validación de la versión corregida.
+
+### 5.3 Cobertura
+
+JaCoCo midió la clase de producción `EnviosLegacy`:
+
+| Métrica JaCoCo | Cubiertos | Total | Cobertura |
+|---|---:|---:|---:|
+| Instrucciones de bytecode | 127 | 127 | 100 % |
+| Líneas | 27 | 27 | 100 % |
+| Ramas | 28 | 28 | 100 % |
+
+JaCoCo no presenta un contador independiente llamado “sentencias”; se
+reportan sus contadores de instrucciones y líneas como medidas de sentencias,
+y el contador de ramas como cobertura de ramas. La cobertura completa de esta
+clase no implica que la lógica cumpla los requisitos: las pruebas pueden
+cubrir una rama defectuosa y demostrar su resultado incorrecto.
+
+### 5.4 Registro de defectos confirmados
+
+Se agrupan fallos de pruebas que comparten una misma causa. Prioridad P1
+significa corregir antes de publicar la versión reparada; P2 es necesaria para
+conformidad funcional antes de cerrar la entrega; P3 es de menor impacto, pero
+se corrige porque el requisito exige el texto exacto.
+
+| ID | Título y requisito | Reproducción | Esperado | Obtenido | Severidad / prioridad |
+|---|---|---|---|---|---|
+| DEF-01 | Límite máximo fijo incorrecto (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L15) | CP-04: `45,001 kg`, urbana, normal, día 1 | Excepción “peso inválido” porque PMAX=45 | Se acepta; devuelve $37.000 | Alta / P1: permite procesar un peso que la especificación prohíbe. |
+| DEF-02 | Mensaje de peso no coincide (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L16) | CP-01 o CP-02 con peso inválido | “peso inválido” | Lanza excepción con “peso invalido” (sin tilde) | Baja / P3: incumple el contrato textual, aunque sí rechaza el peso. |
+| DEF-03 | No se rechaza una zona inválida (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L28) | CP-05: `4 kg`, zona `periurbana`, normal, día 1 | Excepción | Continúa sin recargo y devuelve $9.000 | Alta / P1: procesa entradas de zona no permitidas con tarifa incorrecta. |
+| DEF-04 | No se valida el rango del día (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-06: día 0; CP-07: día 8 | Excepción para ambos | Día 0 devuelve $9.000; día 8 se acepta y agrega el recargo, $11.000 | Alta / P1: acepta valores fuera del dominio y el día 8 altera el precio. |
+| DEF-05 | Se omite el recargo del sábado (R5), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-15: `4 kg`, urbana, normal, día 6 | $11.000 | $9.000 | Alta / P1: produce cobros inferiores a la regla para envíos de sábado. |
+| DEF-06 | Se trunca en vez de redondear HALF_UP (R8), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L59) | CP-24: `11,4375 kg`; también CP-18, CP-21 y CP-27 | CP-24: $10.200; CP-18: $8.600; CP-21: $7.700; CP-27: $37.000 | CP-24: $10.100; CP-18: $8.500; CP-21: $7.600; CP-27: $36.900 | Media / P2: altera el monto final en resultados que requieren redondeo. |
+
+Un mismo caso puede evidenciar más de un defecto. Por ejemplo, CP-28 combina
+la omisión del recargo de sábado con el truncamiento. Los 23 fallos no se
+cuentan como 23 defectos: el registro identifica seis causas diferenciadas.
+
+### 5.5 Métricas de defectos
+
+- Defectos confirmados por severidad: **0 críticos, 4 altos, 1 medio y 1 bajo**.
+- Líneas de código: **52 SLOC** en `EnviosLegacy.java`, contando líneas no
+  vacías y excluyendo comentarios.
+- Densidad: `6 defectos ÷ 52 SLOC × 100 = 11,54 defectos por cada 100 líneas`.
+
+La densidad se calcula sobre la clase heredada y usa causas raíz únicas, no
+fallos de prueba. Se recalculará para la versión final usando el mismo criterio.
