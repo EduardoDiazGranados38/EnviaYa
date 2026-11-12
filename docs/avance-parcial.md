@@ -356,54 +356,100 @@ pruebas de condiciones.
 
 ### Grafo de flujo
 
+Para conservar legibles las decisiones en el PDF, el flujo se presenta en siete
+paneles. Los nodos `D2`, `D9`, `D10`, `D12` y `OUT` que se repiten son
+referencias al mismo nodo y se cuentan una sola vez.
+
+#### Panel 1/7 — Validación del peso
+
 ```mermaid
 flowchart TD
     IN[Inicio] --> D1{p <= 0 or p > 50?}
     D1 -- Sí --> ERR[Lanzar error de peso]
-    ERR --> OUT[Fin]
+    ERR --> OUT[Fin, mismo OUT del panel 7]
     D1 -- No --> D2{p <= L1?}
+```
+
+#### Panel 2/7 — Tarifa base
+
+```mermaid
+flowchart TD
+    D2{p <= L1?}
     D2 -- Sí --> T1[t = 6000]
     D2 -- No --> D3{p <= L2?}
     D3 -- Sí --> T2[t = 9000]
-    D3 -- No --> T3[t = 9000 + (p-L2)*800]
-    T1 --> D4{zona == urbana?}
-    T2 --> D4
-    T3 --> D4
+    D3 -- No --> T3["t = 9000 + (p-L2) * 800"]
+```
+
+#### Panel 3/7 — Recargos por zona
+
+```mermaid
+flowchart TD
+    D4{zona == urbana?}
     D4 -- Sí --> URB[t = t]
     D4 -- No --> D5{zona == rural?}
     D5 -- Sí --> RUR[Aplicar recargo rural]
     D5 -- No --> D6{zona == nacional?}
     D6 -- Sí --> NAC[Aplicar recargo nacional]
-    D6 -- No --> D7{día > 6?}
-    URB --> D7
-    RUR --> D7
-    NAC --> D7
+```
+
+#### Panel 4/7 — Fin de semana y cliente frecuente
+
+```mermaid
+flowchart TD
+    D7{día > 6?}
     D7 -- Sí --> FDS[Sumar recargo de fin de semana]
     D7 -- No --> D8{cliente frecuente?}
     FDS --> D8
     D8 -- Sí --> FREC[Aplicar 5%]
     D8 -- No --> D9{cliente VIP?}
     FREC --> D9
+```
+
+#### Panel 5/7 — Cliente VIP
+
+```mermaid
+flowchart TD
+    D9{cliente VIP?}
     D9 -- Sí --> VIP[Aplicar descuento VIP]
     D9 -- No --> D10{cup != None?}
     VIP --> D10
+```
+
+#### Panel 6/7 — Cupón
+
+```mermaid
+flowchart TD
+    D10{cup != None?}
     D10 -- Sí --> D11{cup == ENVIO10?}
     D10 -- No --> D12{t < 5000?}
     D11 -- Sí --> CUP[Aplicar 10%]
     D11 -- No --> D12
     CUP --> D12
+```
+
+#### Panel 7/7 — Mínimo y salida
+
+```mermaid
+flowchart TD
+    D12{t < 5000?}
     D12 -- Sí --> MIN[Establecer mínimo 5000]
     D12 -- No --> D13{flag?}
     MIN --> D13
     D13 -- Sí --> PRINT[Imprimir costo]
     D13 -- No --> RET[Retornar costo]
     PRINT --> RET
-    RET --> OUT
+    RET --> OUT[Fin, mismo OUT del panel 1]
 ```
+
+Las conexiones entre paneles son `T1`, `T2` y `T3` hacia `D4`, y `URB`, `RUR`,
+`NAC` y la rama No de `D6` hacia `D7`. Estas siete aristas completan el grafo
+conectado y se incluyen en el cálculo de complejidad.
 
 ### Complejidad ciclomática
 
-Con el grafo conectado, `P=1`, `N=29`, `E=41` y 13 nodos predicado:
+En el grafo completo, contando una sola vez los nodos compartidos entre paneles,
+`P=1`, `N=29`, `E=41` y hay 13 nodos predicado:
 
 | Método | Cálculo | Resultado |
 |---|---|---:|
@@ -722,6 +768,9 @@ insular mediante la PR #3.
 - La refactorización se integró desde `refactor/estrategia` mediante la PR #2.
 - La zona insular se integró desde `feat/CR-00-zona-insular` mediante la PR #3,
   después de cambiar su base a `main`.
+- La publicación estable 2.1.0 se preparó mediante la PR #4; la PR #5 actualizó
+  la documentación de entrega y el historial de tiempos, sin cambiar el código
+  de la versión publicada.
 
 ### Versionado semántico y notas
 
@@ -772,6 +821,11 @@ El historial preserva las fechas reales: los commits visibles van de las
 progresivamente a distintas horas; no se reescribieron fechas. La etiqueta
 `v2.0.0` marca la integración de la refactorización, pero el POM en ese punto
 era `2.0.0-SNAPSHOT`; `v2.1.0` sí contiene el POM estable `2.1.0`.
+
+La captura anterior se tomó al publicar `v2.1.0`; después se integró la PR #5
+(`docs/finalize-delivery`, commit `079a67f`) y `main` avanzó a `f13d22f`. Esa
+integración fue documental y no alteró la etiqueta ni el código de la versión
+estable.
 
 ## Parte 8 — Solicitud de cambio y análisis de impacto
 

@@ -7,7 +7,8 @@ evolución de un calculador de costos de envío.
 
 El informe documenta las Partes 1–8. La línea base heredada conserva sus
 fallos intencionales en `v1.0.0`. Las correcciones, refactorización y solicitud
-insular ya están integradas en `main` mediante las PR #1, #2 y #3. La versión
+insular ya están integradas en `main` mediante las PR #1–#3; la publicación
+2.1.0 y el historial de entrega se actualizaron en las PR #4 y #5. La versión
 actual es `2.1.0`, con 53 pruebas aprobadas.
 
 ## Parámetros personalizados
@@ -29,7 +30,10 @@ Código estudiantil: `182310040`
 
 ## Documentación
 
-- [Avance del informe: Partes 1–8](docs/avance-parcial.md)
+- [Informe ejecutivo final en PDF (máximo 20 páginas)](docs/avance-parcial.pdf)
+- [Fuente del informe ejecutivo](docs/avance-parcial-ejecutivo.md)
+- [Informe detallado: Partes 1–8, matrices y análisis](docs/avance-parcial.md)
+- [Evidencias de pruebas y cobertura](docs/evidence/)
 - [Historial de cambios](CHANGELOG.md)
 - [Notas de versión 2.0.0](docs/notas-version-2.0.0.md)
 - [Notas de versión 2.1.0](docs/notas-version-2.1.0.md)
