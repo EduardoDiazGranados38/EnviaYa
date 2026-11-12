@@ -588,6 +588,7 @@ históricos.
 |---|---|---|---|
 | `fix/DEF-01` | DEF-01 | El límite de peso usa PMAX=45 kg. | CP-04 pasa. |
 | `fix/DEF-02` | DEF-02 | El error de peso ahora usa exactamente `peso inválido`. | CP-01 y CP-02 pasan; la regresión completa ejecuta 44 pruebas: 24 pasan y 20 siguen fallando por defectos pendientes. |
+| `fix/DEF-03` | DEF-03 | Se rechazan las zonas distintas de `urbana`, `rural` y `nacional`. | CP-05 pasa; la regresión completa ejecuta 44 pruebas: 25 pasan y 19 siguen fallando por defectos pendientes. |
 
 La tabla de la sección 5.2 conserva la medición de la línea base heredada
 (21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a

@@ -32,6 +32,8 @@ public final class EnviosLegacy {
             t = t + t * RECARGO_RURAL;
         } else if ("nacional".equals(z)) {
             t = t + t * RECARGO_NACIONAL;
+        } else {
+            throw new IllegalArgumentException("zona inválida");
         }
 
         if (d > 6) {
