@@ -1,0 +1,11 @@
+CR-00 red phase — before adding InsularZoneStrategy
+Command: mvn -Dtest=InsularZoneTest test
+
+Test set: edu.uniguajira.enviaya.InsularZoneTest
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0
+
+CR-01: ERROR — IllegalArgumentException: zona inválida
+CR-02: ERROR — IllegalArgumentException: zona inválida
+CR-03: ERROR — IllegalArgumentException: zona inválida
+
+BUILD FAILURE (expected: the zone factory does not support "insular" yet)

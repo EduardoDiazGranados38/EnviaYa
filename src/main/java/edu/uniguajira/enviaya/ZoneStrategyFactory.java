@@ -4,6 +4,7 @@ final class ZoneStrategyFactory {
     private static final ZoneStrategy URBAN = new UrbanZoneStrategy();
     private static final ZoneStrategy RURAL = new RuralZoneStrategy();
     private static final ZoneStrategy NATIONAL = new NationalZoneStrategy();
+    private static final ZoneStrategy INSULAR = new InsularZoneStrategy();
 
     private ZoneStrategyFactory() {
     }
@@ -17,6 +18,9 @@ final class ZoneStrategyFactory {
         }
         if ("nacional".equals(zone)) {
             return NATIONAL;
+        }
+        if ("insular".equals(zone)) {
+            return INSULAR;
         }
         throw new IllegalArgumentException("zona inválida");
     }

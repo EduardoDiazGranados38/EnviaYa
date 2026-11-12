@@ -25,5 +25,5 @@ su impresión por consola. Las llamadas existentes deben cambiar de
 `calc(peso, zona, cliente, día, cupón)`. Esta ruptura de interfaz justifica
 el incremento MAJOR desde la línea base `1.0.0`.
 
-La zona insular de San Andrés no está incluida en esta versión; corresponde a
-la solicitud de cambio y versión menor prevista para la Parte 8.
+La zona insular de San Andrés se documenta como una solicitud de cambio
+separada, con versión menor `2.1.0`, en [sus notas de versión](./notas-version-2.1.0.md).

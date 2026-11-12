@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Zone strategies for urban, rural, and national surcharge policies.
 - Unit tests for each zone strategy and invalid zone selection.
+- San Andrés insular zone with a 70% surcharge; valid coupons are ignored for
+  insular shipments.
+- Change-impact and regression tests for the personalized CR-00 request.
 
 ### Changed
 
@@ -29,10 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Applied the weekend surcharge on both Saturday and Sunday.
 - Rounded to the nearest $100, with ties rounded upward.
 
+The pending release target is `2.1.0`: a backward-compatible minor feature on
+top of the planned `2.0.0` major API release.
+
 ## [1.0.0] - 2026-11-11
 
 ### Added
 
 - Tagged the Java translation of the inherited shipping calculator as the
   unchanged legacy baseline.
-
