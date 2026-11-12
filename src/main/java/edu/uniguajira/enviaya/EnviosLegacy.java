@@ -4,26 +4,32 @@ public final class EnviosLegacy {
     private static final double PMAX = 45.0;
     private static final double L1 = 3.0;
     private static final double L2 = 10.0;
-    private static final double RECARGO_RURAL = 0.10;
-    private static final double RECARGO_NACIONAL = 0.40;
-    private static final double DESC_VIP = 0.10;
+    private static final int DIA_MINIMO = 1;
+    private static final int DIA_MAXIMO = 7;
+    private static final int INICIO_FIN_DE_SEMANA = 6;
+    private static final double TARIFA_TRAMO_UNO = 6000.0;
+    private static final double TARIFA_TRAMO_DOS = 9000.0;
+    private static final double TARIFA_POR_KILO_ADICIONAL = 800.0;
     private static final double RECARGO_FINDE = 2000.0;
+    private static final double DESC_FRECUENTE = 0.05;
+    private static final double DESC_VIP = 0.10;
+    private static final double DESC_CUPON = 0.10;
     private static final double TARIFA_MINIMA = 5000.0;
     private static final double INCREMENTO_REDONDEO = 100.0;
 
     private EnviosLegacy() {
     }
 
-    public static int calc(double p, String z, String c, int d, String cup) {
-        validateWeight(p);
-        validateZone(z);
-        validateDay(d);
+    public static int calc(double weight, String zone, String customer, int day, String coupon) {
+        validateWeight(weight);
+        ZoneStrategy zoneStrategy = ZoneStrategyFactory.forZone(zone);
+        validateDay(day);
 
-        double total = baseTariff(p);
-        total = applyZoneSurcharge(total, z);
-        total = applyWeekendSurcharge(total, d);
-        total = applyCustomerDiscount(total, c);
-        total = applyCouponDiscount(total, cup);
+        double total = baseTariff(weight);
+        total = zoneStrategy.applySurcharge(total);
+        total = applyWeekendSurcharge(total, day);
+        total = applyCustomerDiscount(total, customer);
+        total = applyCouponDiscount(total, coupon);
         total = Math.max(total, TARIFA_MINIMA);
 
         return roundToHundred(total);
@@ -35,45 +41,29 @@ public final class EnviosLegacy {
         }
     }
 
-    private static void validateZone(String zone) {
-        if (!"urbana".equals(zone) && !"rural".equals(zone) && !"nacional".equals(zone)) {
-            throw new IllegalArgumentException("zona inválida");
-        }
-    }
-
     private static void validateDay(int day) {
-        if (day < 1 || day > 7) {
+        if (day < DIA_MINIMO || day > DIA_MAXIMO) {
             throw new IllegalArgumentException("día inválido");
         }
     }
 
     private static double baseTariff(double weight) {
         if (weight <= L1) {
-            return 6000;
+            return TARIFA_TRAMO_UNO;
         }
         if (weight <= L2) {
-            return 9000;
+            return TARIFA_TRAMO_DOS;
         }
-        return 9000 + (weight - L2) * 800;
-    }
-
-    private static double applyZoneSurcharge(double total, String zone) {
-        if ("rural".equals(zone)) {
-            return total + total * RECARGO_RURAL;
-        }
-        if ("nacional".equals(zone)) {
-            return total + total * RECARGO_NACIONAL;
-        }
-        return total;
+        return TARIFA_TRAMO_DOS + (weight - L2) * TARIFA_POR_KILO_ADICIONAL;
     }
 
     private static double applyWeekendSurcharge(double total, int day) {
-        return day >= 6 ? total + RECARGO_FINDE : total;
+        return day >= INICIO_FIN_DE_SEMANA ? total + RECARGO_FINDE : total;
     }
 
     private static double applyCustomerDiscount(double total, String customer) {
         if ("frecuente".equals(customer)) {
-            total = total - total * 0.05;
+            total = total - total * DESC_FRECUENTE;
         }
         if ("vip".equals(customer)) {
             total = total - total * DESC_VIP;
@@ -83,7 +73,7 @@ public final class EnviosLegacy {
 
     private static double applyCouponDiscount(double total, String coupon) {
         if ("ENVIO10".equals(coupon)) {
-            return total - total * 0.10;
+            return total - total * DESC_CUPON;
         }
         return total;
     }

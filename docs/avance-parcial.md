@@ -4,8 +4,11 @@
 
 **Proyecto:** EnvíaYa
 
+**Estudiante:** Eduardo Jose Diazgranados Mejia
+
 **Código estudiantil:** 182310040
-**Estado:** Partes 1–4 documentadas; Parte 5 ejecutada contra la línea base heredada.
+**Estado:** Partes 1–5 ejecutadas; Parte 6 implementada y verificada en
+la rama local `refactor/estrategia`. Parte 7 en progreso; Parte 8 pendiente.
 
 > Los resultados de la Parte 3 son expectativas calculadas manualmente. La
 > Parte 5 registra la ejecución real contra la traducción Java del código
@@ -557,12 +560,12 @@ se corrige porque el requisito exige el texto exacto.
 
 | ID | Título y requisito | Reproducción | Esperado | Obtenido | Severidad / prioridad |
 |---|---|---|---|---|---|
-| DEF-01 | Límite máximo fijo incorrecto (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L15) | CP-04: `45,001 kg`, urbana, normal, día 1 | Se lanza una excepción porque PMAX=45 | Se acepta; devuelve $37.000 | Alta / P1: permite procesar un peso que la especificación prohíbe. |
-| DEF-02 | Mensaje de peso no coincide (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L16) | CP-01 o CP-02 con peso inválido | “peso inválido” | Lanza excepción con “peso invalido” (sin tilde) | Baja / P3: incumple el contrato textual, aunque sí rechaza el peso. |
-| DEF-03 | No se rechaza una zona inválida (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L28) | CP-05: `4 kg`, zona `periurbana`, normal, día 1 | Excepción | Continúa sin recargo y devuelve $9.000 | Alta / P1: procesa entradas de zona no permitidas con tarifa incorrecta. |
-| DEF-04 | No se valida el rango del día (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-06: día 0; CP-07: día 8 | Excepción para ambos | Día 0 devuelve $9.000; día 8 se acepta y agrega el recargo, $11.000 | Alta / P1: acepta valores fuera del dominio y el día 8 altera el precio. |
-| DEF-05 | Se omite el recargo del sábado (R5), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-15: `4 kg`, urbana, normal, día 6 | $11.000 | $9.000 | Alta / P1: produce cobros inferiores a la regla para envíos de sábado. |
-| DEF-06 | Se trunca en vez de redondear HALF_UP (R8), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L59) | CP-24: `11,4375 kg`; también CP-18, CP-21 y CP-27 | CP-24: $10.200; CP-18: $8.600; CP-21: $7.700; CP-27: $37.000 | CP-24: $10.100; CP-18: $8.500; CP-21: $7.600; CP-27: $36.900 | Media / P2: altera el monto final en resultados que requieren redondeo. |
+| DEF-01 | Límite máximo fijo incorrecto (R1), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L15) | CP-04: `45,001 kg`, urbana, normal, día 1 | Se lanza una excepción porque PMAX=45 | Se acepta; devuelve $37.000 | Alta / P1: permite procesar un peso que la especificación prohíbe. |
+| DEF-02 | Mensaje de peso no coincide (R1), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L16) | CP-01 o CP-02 con peso inválido | “peso inválido” | Lanza excepción con “peso invalido” (sin tilde) | Baja / P3: incumple el contrato textual, aunque sí rechaza el peso. |
+| DEF-03 | No se rechaza una zona inválida (R2), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L28) | CP-05: `4 kg`, zona `periurbana`, normal, día 1 | Excepción | Continúa sin recargo y devuelve $9.000 | Alta / P1: procesa entradas de zona no permitidas con tarifa incorrecta. |
+| DEF-04 | No se valida el rango del día (R2), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-06: día 0; CP-07: día 8 | Excepción para ambos | Día 0 devuelve $9.000; día 8 se acepta y agrega el recargo, $11.000 | Alta / P1: acepta valores fuera del dominio y el día 8 altera el precio. |
+| DEF-05 | Se omite el recargo del sábado (R5), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-15: `4 kg`, urbana, normal, día 6 | $11.000 | $9.000 | Alta / P1: produce cobros inferiores a la regla para envíos de sábado. |
+| DEF-06 | Se trunca en vez de redondear HALF_UP (R8), [EnviosLegacy.java en v1.0.0](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L59) | CP-24: `11,4375 kg`; también CP-18, CP-21 y CP-27 | CP-24: $10.200; CP-18: $8.600; CP-21: $7.700; CP-27: $37.000 | CP-24: $10.100; CP-18: $8.500; CP-21: $7.600; CP-27: $36.900 | Media / P2: altera el monto final en resultados que requieren redondeo. |
 
 Un mismo caso puede evidenciar más de un defecto. Por ejemplo, CP-28 combina
 la omisión del recargo de sábado con el truncamiento. Los 23 fallos no se
@@ -597,21 +600,139 @@ La tabla de la sección 5.2 conserva la medición de la línea base heredada
 (21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a
 las correcciones.
 
-## Parte 6 — Refactorización
+## Parte 6 — Mantenimiento y refactorización
 
-### 6.1 Descomposición del cálculo y eliminación de `flag`
+### 6.1 Malos olores del código heredado
 
-En la rama `refactor/calculator`, el método `calc` se separó en pasos privados
-con responsabilidades concretas: validación de peso, zona y día; tarifa base;
-recargos; descuentos; mínimo; y redondeo. La secuencia de negocio y los
-resultados de los casos existentes se mantienen.
+Las líneas de la tabla corresponden al archivo heredado etiquetado como
+`v1.0.0`, antes de los arreglos. Puede consultarse el
+[archivo heredado](https://github.com/EduardoDiazGranados38/EnviaYa/blob/v1.0.0/src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java).
+Se registra la deuda que originaba cada olor, no solo el cambio aplicado.
 
-Se retiró el parámetro `flag` y su impresión por consola, según el alcance de
-la refactorización. Por ello, `WB-14`, cuya única finalidad era cubrir esa
-rama de impresión, deja de aplicar; no se reemplaza por una prueba de
-comportamiento que ya no existe. La suite ejecuta ahora los 42 casos de caja
-negra y WB-15: **43 pruebas aprobadas, 0 fallidas**.
+| Mal olor (nombre técnico) | Ubicación en `v1.0.0` | Deuda técnica |
+|---|---|---|
+| Long Method | `calc`, líneas 14–59 | Mezcla validación, tarifa, recargos, descuentos, mínimo, salida y redondeo; un cambio localizado requiere comprender todo el método y aumenta el riesgo de regresión. |
+| Magic Numbers | Líneas 15, 21, 23, 25, 41, 48, 52 y 59 | PMAX, tarifas, porcentajes, mínimo y unidad de redondeo carecen de nombres; ajustar o auditar reglas exige buscar literales y puede producir inconsistencias. |
+| Flag Argument | Parámetro `flag`, línea 14; uso en 56–58 | El booleano altera la salida secundaria del cálculo y amplía la interfaz pública con un modo difícil de inferir desde la llamada. |
+| Primitive Obsession | Parámetros de `calc`, línea 14; comparaciones de zona, cliente y cupón en 28–48 | Strings y primitivos representan conceptos del dominio sin tipos ni políticas explícitas; validación y reglas quedan acopladas a comparaciones textuales. |
+| Long Parameter List | Firma de `calc`, línea 14 | Seis parámetros posicionales hacen las llamadas menos legibles y facilitan intercambiar u omitir datos. |
+| Type Code with Conditional | Cadena de condiciones por zona, líneas 28–34 | Las reglas de cada zona están codificadas en una selección condicional; añadir una zona obliga a modificar el método central y eleva su complejidad. |
+| Dead Code / código redundante | Asignación `t = t`, línea 29 | La rama urbana no cambia el valor y solo añade ruido al flujo; mantenerla puede ocultar trabajo real o una regla incompleta. |
 
-La implementación de la estrategia para reglas de zona y la evolución insular
-quedan para los siguientes pasos. La rama se mantiene separada de `main` hasta
-completar y verificar esa etapa.
+### 6.2 Clasificación del mantenimiento
+
+| Cambio | Tipo | Justificación |
+|---|---|---|
+| DEF-01: límite personalizado PMAX | Correctivo | Corrige aceptación de pesos prohibidos por R1. |
+| DEF-02: texto exacto del error de peso | Correctivo | Hace que la excepción cumpla el contrato R1. |
+| DEF-03: rechazo de zona inválida | Correctivo | Corrige entradas fuera del dominio R2. |
+| DEF-04: validación de días 1–7 | Correctivo | Corrige entradas fuera del dominio R2. |
+| DEF-05: recargo de sábado | Correctivo | Hace cumplir R5 para ambos días del fin de semana. |
+| DEF-06: redondeo HALF_UP | Correctivo | Hace cumplir el resultado monetario de R8. |
+| Extracción de funciones y constantes; eliminación de `flag` | Perfectivo | Mejora la estructura y elimina una opción de salida ajena al cálculo requerido. La eliminación cambia la interfaz pública y se tratará como cambio mayor en versionado semántico. |
+| Estrategia para zonas | Perfectivo | Aísla las reglas variables por zona y permite extenderlas sin editar el cálculo central. |
+| Pruebas unitarias de estrategias | Preventivo | Detectan regresiones de selección y aplicación de recargos por zona. |
+| Zona insular de Parte 8 | Adaptativo | Añade una nueva regla de negocio solicitada, aún pendiente de pruebas e implementación. |
+
+### 6.3 Refactorización y patrón Estrategia
+
+En la rama `refactor/estrategia`, `calc` delega en funciones con
+responsabilidades concretas: validar peso y día, obtener tarifa base, aplicar
+recargos/descuentos, aplicar mínimo y redondear. Los montos y porcentajes
+constantes tienen nombres. Se eliminó `flag` y su impresión por consola.
+
+La selección de política de zona se implementa con Estrategia:
+
+```mermaid
+classDiagram
+    class EnviosLegacy {
+        +calc(weight, zone, customer, day, coupon) int
+    }
+    class ZoneStrategyFactory {
+        +forZone(zone) ZoneStrategy
+    }
+    class ZoneStrategy {
+        <<interface>>
+        +applySurcharge(baseTariff) double
+    }
+    class UrbanZoneStrategy
+    class RuralZoneStrategy
+    class NationalZoneStrategy
+    EnviosLegacy ..> ZoneStrategyFactory : selecciona política
+    EnviosLegacy ..> ZoneStrategy : aplica recargo
+    ZoneStrategyFactory ..> ZoneStrategy : crea
+    ZoneStrategy <|.. UrbanZoneStrategy
+    ZoneStrategy <|.. RuralZoneStrategy
+    ZoneStrategy <|.. NationalZoneStrategy
+```
+
+La fábrica rechaza zonas desconocidas; cada estrategia aplica su regla:
+urbana 0 %, rural 10 % y nacional 40 %. Las pruebas CP-12–CP-14 comprueban la
+integración, y cinco pruebas unitarias verifican las tres políticas y el
+rechazo de zonas desconocidas o nulas.
+
+`WB-14` se retiró porque probaba exclusivamente la impresión controlada por
+`flag`, comportamiento eliminado intencionalmente. Las otras 42 pruebas de
+caja negra y WB-15 se conservan; las llamadas se ajustaron a la nueva firma.
+La regresión refactorizada ejecuta **48 pruebas: 48 aprobadas, 0 fallidas**.
+
+### 6.4 Comparación antes y después
+
+Se compara el método `calc` del legado con el mismo punto de entrada después
+de extraer funciones. La complejidad agregada incluye también los métodos
+auxiliares y las estrategias y, por tanto, no es la misma unidad que la
+complejidad del único método heredado.
+
+| Métrica | Legado `v1.0.0` | Refactorización con Estrategia | Interpretación |
+|---|---:|---:|---|
+| Complejidad ciclomática de `calc` | 14 | 1 | La selección de reglas se delega; la complejidad queda distribuida en validadores, fábrica y políticas. La suma JaCoCo de complejidad de todos los métodos nuevos es 29. |
+| SLOC de producción | 52 | 119 | Conteo de líneas no vacías y no comentadas en todos los `.java` de producción; el aumento corresponde a responsabilidades y estrategias explícitas. |
+| Instrucciones JaCoCo | 127/127 (100 %) | 190/190 (100 %) | Después se mide todo el código de producción, no solo una clase. |
+| Líneas JaCoCo | 27/27 (100 %) | 47/47 (100 %) | Todos los renglones ejecutables quedaron cubiertos. |
+| Ramas JaCoCo | 28/28 (100 %) | 26/26 (100 %) | Las ramas nuevas, incluida la selección/rechazo de zona, tienen pruebas. |
+| Pruebas aprobadas | 21/44 (47,73 %) en el legado | 48/48 (100 %) | La suite posterior incluye cinco pruebas unitarias nuevas de Estrategia; WB-14 se retiró por la eliminación de `flag`. |
+
+Las cifras de cobertura del legado son las mediciones históricas de la Parte 5.
+La versión refactorizada se midió con JaCoCo 0.8.12 mediante
+`mvn clean verify`; el HTML se genera en `target/site/jacoco/index.html`.
+Cobertura total no demuestra por sí sola conformidad: se interpreta junto con
+los resultados de pruebas y requisitos.
+
+Evidencias de esta versión:
+
+- [JUnit: 43 casos de caja negra/blanca aprobados](evidence/pruebas-regresion-43.png).
+- [JUnit: 5 pruebas de Estrategia aprobadas](evidence/pruebas-estrategias-zona.png).
+- [JaCoCo: cobertura de la implementación refactorizada](evidence/cobertura-refactorizada.png).
+
+La implementación está en la rama local `refactor/estrategia`, separada de
+`main`; falta publicarla e integrarla como parte de la Parte 7.
+
+## Parte 7 — Gestión de configuración (en progreso)
+
+### Ramas e integración
+
+- La etiqueta `v1.0.0` conserva la traducción heredada.
+- `test/suite` mantiene el trabajo de automatización.
+- `fix/DEF-01` a `fix/DEF-06` identifican las correcciones individuales; la
+  secuencia se integró en `main` mediante la PR #1.
+- La rama local `refactor/estrategia` contiene la descomposición, la
+  eliminación de `flag` y el patrón Estrategia. Aún no se ha publicado ni
+  integrado en `main`.
+
+### Versionado semántico y notas
+
+El proyecto mantiene `v1.0.0` para la línea base. El retiro del argumento
+público `flag` rompe la firma anterior, por lo que la próxima versión estable
+será **2.0.0** (cambio MAJOR); mientras se completa Parte 6, Maven indica
+`2.0.0-SNAPSHOT`. La zona insular de Parte 8 agrega comportamiento compatible
+y se documentará como versión menor **2.1.0**, si no exige otra ruptura de
+interfaz. El [CHANGELOG](../CHANGELOG.md) usa el formato Keep a Changelog; las
+[notas de versión 2.0.0](notas-version-2.0.0.md) están marcadas como borrador
+hasta que se integre y etiquete la versión.
+
+La salida completa de `git log --oneline --graph --all` se añadirá al cerrar
+la integración y publicar las etiquetas, para que refleje el historial final.
+El historial actual conserva las fechas reales y muestra commits entre las
+19:49 y las 21:43 del 11 de noviembre; por sí solo todavía no demuestra una
+distribución a lo largo de toda la jornada. No se reescriben fechas para
+aparentar una distribución distinta.
