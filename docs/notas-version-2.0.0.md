@@ -1,10 +1,10 @@
-# Notas de versión 2.0.0 (borrador)
+# Notas de versión 2.0.0
 
-**Estado:** borrador; todavía no publicada ni etiquetada.
+**Estado:** integrada en `main`; etiqueta `v2.0.0`.
 
 ## Resumen
 
-La próxima versión estable reúne las correcciones DEF-01 a DEF-06 y la
+La versión estable reúne las correcciones DEF-01 a DEF-06 y la
 refactorización del cálculo con el patrón Estrategia para las zonas urbana,
 rural y nacional.
 

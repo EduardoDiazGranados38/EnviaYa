@@ -6,7 +6,7 @@
 
     <groupId>edu.uniguajira</groupId>
     <artifactId>enviaya</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.1.0</version>
     <name>EnvíaYa</name>
     <description>Pruebas, mantenimiento y evolución del cálculo de envíos</description>
 

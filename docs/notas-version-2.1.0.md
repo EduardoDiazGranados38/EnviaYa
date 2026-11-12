@@ -1,7 +1,6 @@
-# Notas de versión 2.1.0 (borrador)
+# Notas de versión 2.1.0
 
-**Estado:** borrador; pendiente de integrar la refactorización `2.0.0` y la
-solicitud de cambio en `main`.
+**Estado:** integrada en `main`; etiqueta `v2.1.0`.
 
 ## Resumen
 
@@ -22,7 +21,4 @@ Agrega la zona insular de San Andrés para el código personalizado
 ## Compatibilidad
 
 Esta función no añade parámetros a la firma pública `calc`; es compatible con
-la interfaz `2.0.0`. Se propone el incremento MINOR `2.1.0`.
-
-La etiqueta `v2.1.0` se creará después de integrar y validar la cadena de
-solicitudes de cambio; esta nota sigue siendo un borrador hasta entonces.
+la interfaz `2.0.0`. Se publica como incremento MINOR `2.1.0`.

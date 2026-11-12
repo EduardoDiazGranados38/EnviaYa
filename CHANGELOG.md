@@ -7,13 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-11
+
+### Added
+
+- San Andrés insular zone with a 70% surcharge; valid coupons are ignored for
+  insular shipments.
+- Change-impact and regression tests for the personalized CR-00 request.
+
+### Validation
+
+- `mvn clean verify`: 53 tests passed, with no failures.
+- JaCoCo: 100% instruction, line, and branch coverage.
+
+## [2.0.0] - 2026-11-11
+
 ### Added
 
 - Zone strategies for urban, rural, and national surcharge policies.
 - Unit tests for each zone strategy and invalid zone selection.
-- San Andrés insular zone with a 70% surcharge; valid coupons are ignored for
-  insular shipments.
-- Change-impact and regression tests for the personalized CR-00 request.
 
 ### Changed
 
@@ -22,8 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced tariff, limit, percentage, and rounding literals with named
   constants.
 - Removed the `flag` parameter and its console output from the public
-  calculator API. This is a breaking API change and requires the next major
-  release, `2.0.0`.
+  calculator API. This is a breaking API change.
 
 ### Fixed
 
@@ -31,9 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rejected unsupported zones and days outside 1–7.
 - Applied the weekend surcharge on both Saturday and Sunday.
 - Rounded to the nearest $100, with ties rounded upward.
-
-The pending release target is `2.1.0`: a backward-compatible minor feature on
-top of the planned `2.0.0` major API release.
 
 ## [1.0.0] - 2026-11-11
 
