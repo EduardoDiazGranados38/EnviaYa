@@ -5,9 +5,9 @@ evolución de un calculador de costos de envío.
 
 ## Estado
 
-El repositorio contiene el borrador documentado de las Partes 1–4 del parcial.
-La implementación Java, las pruebas automatizadas y la medición de cobertura
-todavía están pendientes.
+El repositorio contiene el borrador documentado de las Partes 1–4 y la
+traducción Java del código heredado. Las pruebas automatizadas, el reporte de
+defectos y la medición de cobertura están en proceso.
 
 ## Parámetros personalizados
 
@@ -32,12 +32,9 @@ Código estudiantil: `182310040`
 
 ## Próximos pasos
 
-1. Crear la traducción Java del código heredado, preservando su lógica.
-2. Etiquetar esa línea base como `v1.0.0`, según lo solicita el parcial.
-3. Automatizar los casos con JUnit y medir cobertura con JaCoCo.
-4. Registrar defectos antes de corregirlos; después refactorizar y probar la
+1. Automatizar los casos contra la línea base `v1.0.0`.
+2. Registrar defectos antes de corregirlos; después refactorizar y probar la
    evolución de zona insular.
 
-El repositorio local aún no está vinculado ni publicado en GitHub. No se debe
-crear una etiqueta de versión de producto hasta que exista el código heredado
-Java que dicha etiqueta debe identificar.
+El repositorio local está vinculado con GitHub. La etiqueta `v1.0.0` identifica
+la traducción Java del código heredado, todavía sin corregir.
