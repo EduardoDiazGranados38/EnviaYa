@@ -29,7 +29,7 @@ public final class EnviosLegacy {
         total = zoneStrategy.applySurcharge(total);
         total = applyWeekendSurcharge(total, day);
         total = applyCustomerDiscount(total, customer);
-        total = applyCouponDiscount(total, coupon);
+        total = applyCouponDiscount(total, coupon, zoneStrategy.acceptsCoupon());
         total = Math.max(total, TARIFA_MINIMA);
 
         return roundToHundred(total);
@@ -71,8 +71,8 @@ public final class EnviosLegacy {
         return total;
     }
 
-    private static double applyCouponDiscount(double total, String coupon) {
-        if ("ENVIO10".equals(coupon)) {
+    private static double applyCouponDiscount(double total, String coupon, boolean acceptsCoupon) {
+        if (acceptsCoupon && "ENVIO10".equals(coupon)) {
             return total - total * DESC_CUPON;
         }
         return total;

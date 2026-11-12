@@ -5,4 +5,9 @@ final class UrbanZoneStrategy implements ZoneStrategy {
     public double applySurcharge(double baseTariff) {
         return baseTariff;
     }
+
+    @Override
+    public boolean acceptsCoupon() {
+        return true;
+    }
 }

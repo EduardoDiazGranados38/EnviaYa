@@ -7,4 +7,9 @@ final class RuralZoneStrategy implements ZoneStrategy {
     public double applySurcharge(double baseTariff) {
         return baseTariff + baseTariff * RECARGO_RURAL;
     }
+
+    @Override
+    public boolean acceptsCoupon() {
+        return true;
+    }
 }

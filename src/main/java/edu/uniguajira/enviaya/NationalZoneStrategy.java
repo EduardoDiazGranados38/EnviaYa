@@ -7,4 +7,9 @@ final class NationalZoneStrategy implements ZoneStrategy {
     public double applySurcharge(double baseTariff) {
         return baseTariff + baseTariff * RECARGO_NACIONAL;
     }
+
+    @Override
+    public boolean acceptsCoupon() {
+        return true;
+    }
 }

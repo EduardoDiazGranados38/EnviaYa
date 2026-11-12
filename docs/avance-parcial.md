@@ -7,8 +7,9 @@
 **Estudiante:** Eduardo Jose Diazgranados Mejia
 
 **Código estudiantil:** 182310040
-**Estado:** Partes 1–5 ejecutadas; Parte 6 implementada y verificada en
-la rama local `refactor/estrategia`. Parte 7 en progreso; Parte 8 pendiente.
+**Estado:** Partes 1–6 implementadas; solicitud CR-00 de la Parte 8 implementada
+en una rama separada. Parte 7 está en progreso; faltan integrar y etiquetar
+las versiones.
 
 > Los resultados de la Parte 3 son expectativas calculadas manualmente. La
 > Parte 5 registra la ejecución real contra la traducción Java del código
@@ -117,12 +118,12 @@ Los casos CP se detallan en la Parte 3.
 | Requisito | Historia | Casos |
 |---|---|---|
 | R1 | HU-01 | CP-01–CP-04, CP-25, CP-27 |
-| R2 | HU-01 | CP-05–CP-07 |
+| R2 | HU-01, HU-02, HU-04 | CP-05–CP-07, CP-12–CP-14, CR-01–CR-04 |
 | R3 | HU-01 | CP-03, CP-08–CP-11, CP-25–CP-27, CP-41–CP-42 |
-| R4 | HU-02 | CP-12–CP-14 |
+| R4 | HU-02, HU-04 | CP-12–CP-14, CR-01–CR-04 |
 | R5 | HU-02 | CP-15–CP-17, CP-28–CP-33, CP-35–CP-36, CP-38, CP-40 |
 | R6 | HU-03 | CP-18–CP-21, CP-28, CP-30, CP-32–CP-40 |
-| R7 | HU-03 | CP-22, CP-31, CP-34–CP-35, CP-39–CP-40 |
+| R7 | HU-03, HU-04 | CP-22, CP-31, CP-34–CP-35, CP-39–CP-40, CR-02–CR-04 |
 | R8 | HU-03 | CP-23–CP-24; el redondeo también aplica a todos los resultados válidos |
 
 La zona insular corresponde a `CAMBIO=0` y se trata como evolución de la Parte
@@ -632,7 +633,7 @@ Se registra la deuda que originaba cada olor, no solo el cambio aplicado.
 | Extracción de funciones y constantes; eliminación de `flag` | Perfectivo | Mejora la estructura y elimina una opción de salida ajena al cálculo requerido. La eliminación cambia la interfaz pública y se tratará como cambio mayor en versionado semántico. |
 | Estrategia para zonas | Perfectivo | Aísla las reglas variables por zona y permite extenderlas sin editar el cálculo central. |
 | Pruebas unitarias de estrategias | Preventivo | Detectan regresiones de selección y aplicación de recargos por zona. |
-| Zona insular de Parte 8 | Adaptativo | Añade una nueva regla de negocio solicitada, aún pendiente de pruebas e implementación. |
+| Zona insular de Parte 8 | Adaptativo | Añade una nueva regla de negocio solicitada, probada antes de implementarse en la rama CR-00. |
 
 ### 6.3 Refactorización y patrón Estrategia
 
@@ -654,27 +655,31 @@ classDiagram
     class ZoneStrategy {
         <<interface>>
         +applySurcharge(baseTariff) double
+        +acceptsCoupon() boolean
     }
     class UrbanZoneStrategy
     class RuralZoneStrategy
     class NationalZoneStrategy
+    class InsularZoneStrategy
     EnviosLegacy ..> ZoneStrategyFactory : selecciona política
     EnviosLegacy ..> ZoneStrategy : aplica recargo
     ZoneStrategyFactory ..> ZoneStrategy : crea
     ZoneStrategy <|.. UrbanZoneStrategy
     ZoneStrategy <|.. RuralZoneStrategy
     ZoneStrategy <|.. NationalZoneStrategy
+    ZoneStrategy <|.. InsularZoneStrategy
 ```
 
 La fábrica rechaza zonas desconocidas; cada estrategia aplica su regla:
 urbana 0 %, rural 10 % y nacional 40 %. Las pruebas CP-12–CP-14 comprueban la
-integración, y cinco pruebas unitarias verifican las tres políticas y el
-rechazo de zonas desconocidas o nulas.
+integración, y seis pruebas unitarias verifican las políticas implementadas,
+la regla de cupón y el rechazo de zonas desconocidas o nulas.
 
 `WB-14` se retiró porque probaba exclusivamente la impresión controlada por
 `flag`, comportamiento eliminado intencionalmente. Las otras 42 pruebas de
 caja negra y WB-15 se conservan; las llamadas se ajustaron a la nueva firma.
-La regresión refactorizada ejecuta **48 pruebas: 48 aprobadas, 0 fallidas**.
+La regresión refactorizada antes de la solicitud CR-00 ejecutó **48 pruebas:
+48 aprobadas, 0 fallidas**.
 
 ### 6.4 Comparación antes y después
 
@@ -690,7 +695,7 @@ complejidad del único método heredado.
 | Instrucciones JaCoCo | 127/127 (100 %) | 190/190 (100 %) | Después se mide todo el código de producción, no solo una clase. |
 | Líneas JaCoCo | 27/27 (100 %) | 47/47 (100 %) | Todos los renglones ejecutables quedaron cubiertos. |
 | Ramas JaCoCo | 28/28 (100 %) | 26/26 (100 %) | Las ramas nuevas, incluida la selección/rechazo de zona, tienen pruebas. |
-| Pruebas aprobadas | 21/44 (47,73 %) en el legado | 48/48 (100 %) | La suite posterior incluye cinco pruebas unitarias nuevas de Estrategia; WB-14 se retiró por la eliminación de `flag`. |
+| Pruebas aprobadas | 21/44 (47,73 %) en el legado | 48/48 (100 %) antes de CR-00 | Resultado previo a CR-00: 43 casos CP/WB y cinco pruebas de Estrategia; WB-14 se retiró por la eliminación de `flag`. |
 
 Las cifras de cobertura del legado son las mediciones históricas de la Parte 5.
 La versión refactorizada se midió con JaCoCo 0.8.12 mediante
@@ -704,8 +709,8 @@ Evidencias de esta versión:
 - [JUnit: 5 pruebas de Estrategia aprobadas](evidence/pruebas-estrategias-zona.png).
 - [JaCoCo: cobertura de la implementación refactorizada](evidence/cobertura-refactorizada.png).
 
-La implementación está en la rama local `refactor/estrategia`, separada de
-`main`; falta publicarla e integrarla como parte de la Parte 7.
+La implementación está en `refactor/estrategia`, separada de `main`; la
+integración de esta rama está pendiente como parte de la Parte 7.
 
 ## Parte 7 — Gestión de configuración (en progreso)
 
@@ -723,16 +728,84 @@ La implementación está en la rama local `refactor/estrategia`, separada de
 
 El proyecto mantiene `v1.0.0` para la línea base. El retiro del argumento
 público `flag` rompe la firma anterior, por lo que la próxima versión estable
-será **2.0.0** (cambio MAJOR); mientras se completa Parte 6, Maven indica
-`2.0.0-SNAPSHOT`. La zona insular de Parte 8 agrega comportamiento compatible
-y se documentará como versión menor **2.1.0**, si no exige otra ruptura de
-interfaz. El [CHANGELOG](../CHANGELOG.md) usa el formato Keep a Changelog; las
-[notas de versión 2.0.0](notas-version-2.0.0.md) están marcadas como borrador
-hasta que se integre y etiquete la versión.
+será **2.0.0** (cambio MAJOR); Maven indica `2.0.0-SNAPSHOT` en
+`refactor/estrategia`. La rama de la solicitud insular avanza a
+`2.1.0-SNAPSHOT`. La zona insular de Parte 8 agrega comportamiento compatible y se documentará
+como versión menor **2.1.0**. El [CHANGELOG](../CHANGELOG.md) usa el formato
+Keep a Changelog; las [notas de versión 2.0.0](notas-version-2.0.0.md) y
+[2.1.0](notas-version-2.1.0.md) están marcadas como borrador hasta que se
+integren y etiqueten las versiones.
 
 La salida completa de `git log --oneline --graph --all` se añadirá al cerrar
 la integración y publicar las etiquetas, para que refleje el historial final.
 El historial actual conserva las fechas reales y muestra commits entre las
-19:49 y las 21:54 del 11 de noviembre; por sí solo todavía no demuestra una
-distribución a lo largo de toda la jornada. No se reescriben fechas para
-aparentar una distribución distinta.
+19:49 y las 21:54 del 11 de noviembre. Los cambios se registraron en commits
+progresivos a distintas horas; no se reescriben fechas.
+
+## Parte 8 — Solicitud de cambio y análisis de impacto
+
+### 8.1 Solicitud personalizada CR-00
+
+Los parámetros personalizados dan `(A + F) mod 3 = (3 + 0) mod 3 = 0`, por
+lo que corresponde agregar la zona insular de San Andrés, con recargo del 70 %
+y sin aceptar cupones.
+
+**HU-04 — Calcular envíos insulares.** Como persona que envía a San Andrés,
+quiero que el sistema aplique el recargo insular e ignore cupones, para obtener
+una tarifa acorde a la solicitud de cambio.
+
+| ID | Dado | Cuando | Entonces |
+|---|---|---|---|
+| CA-24 / CR-01 | Envío de 4 kg, zona insular, cliente normal, día 1, sin cupón | Se calcula | Tarifa $9.000 + 70 % = $15.300. |
+| CA-25 / CR-02 | Los mismos datos con cupón `ENVIO10` | Se calcula | Se ignora el cupón y el resultado sigue siendo $15.300. |
+| CA-26 / CR-03 | Envío de 4 kg, zona insular, frecuente, día 1, `ENVIO10` | Se calcula | Se ignora el cupón; se conserva el descuento de cliente: $15.300 × 0,95 = $14.535, redondeado a $14.500. |
+| CA-27 / CR-04 | Envío de 4 kg, zona insular, normal, sábado, `ENVIO10` | Se calcula | Recargo insular antes del recargo de sábado: $15.300 + $2.000 = $17.300; el cupón se ignora. |
+
+### 8.2 Análisis de impacto y trazabilidad
+
+La solicitud agrega una zona al dominio y una excepción de cupón específica.
+Se conserva el orden existente: tarifa base, recargo de zona, fin de semana,
+descuento del cliente, cupón si la zona lo acepta, mínimo y redondeo.
+
+| Elemento | Impacto |
+|---|---|
+| Requisitos | R2 amplía sus zonas válidas con `insular`; R4 agrega el recargo de 70 %; R7 conserva cupones en otras zonas, pero CR-00 exige ignorarlos en zona insular. R1, R3, R5, R6 y R8 se mantienen y se comprueban en regresión. |
+| Historias | HU-02 amplía reglas de recargo; HU-03 mantiene descuentos y costo final; HU-04 cubre explícitamente la solicitud insular. |
+| Casos | CP-05, CP-12–CP-14, CP-18–CP-40 protegen validación y reglas existentes; CR-01–CR-04 prueban tarifa insular sin/con cupón, cliente frecuente y sábado. |
+| Código | `ZoneStrategy`, `ZoneStrategyFactory`, la selección de estrategia en `EnviosLegacy.calc`, `applyCouponDiscount` y la política nueva `InsularZoneStrategy`. |
+| Suite | `InsularZoneTest` cubre cuatro escenarios de aceptación; `ZoneStrategyTest` verifica recargo y política de cupón insulares. Se ejecuta también la suite previa completa. |
+| Documentación/release | Este análisis, `CHANGELOG.md`, notas de versión 2.1.0 y la matriz inicial de trazabilidad. |
+
+### 8.3 Clasificación del mantenimiento
+
+La implementación es **mantenimiento adaptativo**: incorpora una regla de
+negocio nueva solicitada, sin alterar la firma pública `calc` ni las políticas
+existentes. El ajuste de la trazabilidad, changelog y notas de versión es
+documentación asociada al mismo cambio.
+
+### 8.4 Implementación, prueba primero y versión
+
+La rama `feat/CR-00-zona-insular` se creó desde `refactor/estrategia`. Antes
+de modificar producción, se añadieron CR-01–CR-03 y se ejecutaron contra el
+código existente: las tres terminaron con `IllegalArgumentException: zona
+inválida`, confirmando el rojo esperado. Después se implementaron la estrategia
+insular, el recargo del 70 % y la política de ignorar cupones.
+
+Verificación con `mvn clean verify`: **53 pruebas, 53 aprobadas, 0 fallidas**.
+La versión objetivo pasa de `2.0.0` a `2.1.0` como cambio MINOR compatible,
+documentada en el [CHANGELOG](../CHANGELOG.md) y en las [notas de versión
+2.1.0](notas-version-2.1.0.md). La etiqueta estable `v2.1.0` se creará después
+de integrar y validar la cadena de PRs; no se etiqueta un cambio aún no
+integrado.
+
+JaCoCo 0.8.12 midió la solución con la solicitud CR-00: **221/221
+instrucciones (100 %), 56/56 líneas (100 %) y 30/30 ramas (100 %)**. La
+complejidad agregada reportada es 37. Las capturas del resultado CR-00 y el
+informe de cobertura se anexan al documento:
+
+- [Salida fallida de CR-01–CR-03 antes de implementar](evidence/cr00-pruebas-antes.log).
+- [Captura de la fase roja CR-00](evidence/cr00-pruebas-antes.png).
+- [Pruebas de aceptación CR-01–CR-04 aprobadas](evidence/pruebas-zona-insular.png).
+- [Pruebas unitarias de estrategias aprobadas](evidence/pruebas-estrategias-zona-final.png).
+- [Regresión CP/WB aprobada](evidence/regresion-final-53.png).
+- [Cobertura JaCoCo después de CR-00](evidence/cobertura-zona-insular.png).
