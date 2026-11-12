@@ -14,7 +14,7 @@ public final class EnviosLegacy {
 
     public static int calc(double p, String z, String c, int d, String cup, boolean flag) {
         if (p <= 0 || p > PMAX) {
-            throw new IllegalArgumentException("peso invalido");
+            throw new IllegalArgumentException("peso inválido");
         }
 
         double t;

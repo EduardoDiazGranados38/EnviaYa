@@ -8,7 +8,9 @@ evolución de un calculador de costos de envío.
 El repositorio contiene el borrador documentado de las Partes 1–5, la
 traducción Java del código heredado y la primera suite automatizada de JUnit.
 La línea base heredada reproduce fallos intencionales que están documentados,
-con capturas de ejecución y cobertura.
+con capturas de ejecución y cobertura. Las correcciones DEF-01 y DEF-02 se
+están validando en ramas separadas; la regresión actual aún revela otros
+defectos pendientes.
 
 ## Parámetros personalizados
 

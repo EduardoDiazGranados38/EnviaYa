@@ -577,3 +577,18 @@ cuentan como 23 defectos: el registro identifica seis causas diferenciadas.
 
 La densidad se calcula sobre la clase heredada y usa causas raíz únicas, no
 fallos de prueba. Se recalculará para la versión final usando el mismo criterio.
+
+### 5.6 Avance de correcciones
+
+Las correcciones se trabajan en ramas independientes basadas en la suite de
+pruebas; no modifican la etiqueta `v1.0.0` ni reemplazan sus resultados
+históricos.
+
+| Rama | Defecto | Cambio | Verificación |
+|---|---|---|---|
+| `fix/DEF-01` | DEF-01 | El límite de peso usa PMAX=45 kg. | CP-04 pasa. |
+| `fix/DEF-02` | DEF-02 | El error de peso ahora usa exactamente `peso inválido`. | CP-01 y CP-02 pasan; la regresión completa ejecuta 44 pruebas: 24 pasan y 20 siguen fallando por defectos pendientes. |
+
+La tabla de la sección 5.2 conserva la medición de la línea base heredada
+(21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a
+las correcciones.
