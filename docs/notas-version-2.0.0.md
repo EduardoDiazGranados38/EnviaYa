@@ -25,5 +25,12 @@ su impresión por consola. Las llamadas existentes deben cambiar de
 `calc(peso, zona, cliente, día, cupón)`. Esta ruptura de interfaz justifica
 el incremento MAJOR desde la línea base `1.0.0`.
 
+## Etiqueta y empaquetado
+
+La etiqueta `v2.0.0` identifica la integración de la refactorización mediante
+la PR #2. En ese commit Maven todavía indicaba `2.0.0-SNAPSHOT`; no se publicó
+un artefacto Maven independiente para esa versión. La primera versión Maven
+estable del proyecto es `2.1.0`.
+
 La zona insular de San Andrés se documenta como una solicitud de cambio
 separada, con versión menor `2.1.0`, en [sus notas de versión](./notas-version-2.1.0.md).
