@@ -5,30 +5,76 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
-import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestFactory;
 
 class EnviosLegacyTest {
-    @TestFactory
-    Stream<DynamicTest> blackBoxCases() {
-        return cases().stream().map(testCase ->
-                DynamicTest.dynamicTest(testCase.id + " - " + testCase.title, () -> {
-                    if (testCase.expectedMessage != null) {
-                        IllegalArgumentException error = assertThrows(
-                                IllegalArgumentException.class,
-                                () -> calculate(testCase), testCase.id);
-                        assertEquals(testCase.expectedMessage, error.getMessage(),
-                                testCase.id + " error message");
-                    } else if (testCase.expectsError) {
-                        assertThrows(IllegalArgumentException.class,
-                                () -> calculate(testCase), testCase.id);
-                    } else {
-                        assertEquals(testCase.expectedCost, calculate(testCase),
-                                testCase.id + " expected cost");
-                    }
-                }));
+    @Test void cp01_zeroWeight() { verify("CP-01"); }
+    @Test void cp02_negativeWeight() { verify("CP-02"); }
+    @Test void cp03_maximumValidWeight() { verify("CP-03"); }
+    @Test void cp04_weightAboveMaximum() { verify("CP-04"); }
+    @Test void cp05_invalidZone() { verify("CP-05"); }
+    @Test void cp06_dayBelowRange() { verify("CP-06"); }
+    @Test void cp07_dayAboveRange() { verify("CP-07"); }
+    @Test void cp08_weightAtL1() { verify("CP-08"); }
+    @Test void cp09_weightAboveL1() { verify("CP-09"); }
+    @Test void cp10_weightAtL2() { verify("CP-10"); }
+    @Test void cp11_proportionalTariff() { verify("CP-11"); }
+    @Test void cp12_urbanZone() { verify("CP-12"); }
+    @Test void cp13_ruralSurcharge() { verify("CP-13"); }
+    @Test void cp14_nationalSurcharge() { verify("CP-14"); }
+    @Test void cp15_saturdaySurcharge() { verify("CP-15"); }
+    @Test void cp16_sundayAndRuralSurcharge() { verify("CP-16"); }
+    @Test void cp17_weekdayWithoutWeekendSurcharge() { verify("CP-17"); }
+    @Test void cp18_frequentCustomerDiscount() { verify("CP-18"); }
+    @Test void cp19_vipDiscount() { verify("CP-19"); }
+    @Test void cp20_validCoupon() { verify("CP-20"); }
+    @Test void cp21_customerAndCouponDiscounts() { verify("CP-21"); }
+    @Test void cp22_unknownCouponIgnored() { verify("CP-22"); }
+    @Test void cp23_minimumAfterDiscounts() { verify("CP-23"); }
+    @Test void cp24_roundingTieGoesUp() { verify("CP-24"); }
+    @Test void cp25_smallestPositiveWeight() { verify("CP-25"); }
+    @Test void cp26_justAboveL2() { verify("CP-26"); }
+    @Test void cp27_justBelowMaximum() { verify("CP-27"); }
+    @Test void cp28_weekendBeforeCustomerDiscount() { verify("CP-28"); }
+    @Test void cp29_normalWeekendNoCoupon() { verify("CP-29"); }
+    @Test void cp30_normalWeekendValidCoupon() { verify("CP-30"); }
+    @Test void cp31_normalWeekendUnknownCoupon() { verify("CP-31"); }
+    @Test void cp32_frequentWeekendNoCoupon() { verify("CP-32"); }
+    @Test void cp33_frequentWeekendValidCoupon() { verify("CP-33"); }
+    @Test void cp34_frequentUnknownCoupon() { verify("CP-34"); }
+    @Test void cp35_frequentWeekendUnknownCoupon() { verify("CP-35"); }
+    @Test void cp36_vipWeekendNoCoupon() { verify("CP-36"); }
+    @Test void cp37_vipValidCoupon() { verify("CP-37"); }
+    @Test void cp38_vipWeekendValidCoupon() { verify("CP-38"); }
+    @Test void cp39_vipUnknownCoupon() { verify("CP-39"); }
+    @Test void cp40_vipWeekendUnknownCoupon() { verify("CP-40"); }
+    @Test void cp41_justBelowL1() { verify("CP-41"); }
+    @Test void cp42_justBelowL2() { verify("CP-42"); }
+
+    private static void verify(String caseId) {
+        TestCase testCase = findCase(caseId);
+        if (testCase.expectedMessage != null) {
+            IllegalArgumentException error = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> calculate(testCase), testCase.id);
+            assertEquals(testCase.expectedMessage, error.getMessage(),
+                    testCase.id + " error message");
+        } else if (testCase.expectsError) {
+            assertThrows(IllegalArgumentException.class,
+                    () -> calculate(testCase), testCase.id);
+        } else {
+            assertEquals(testCase.expectedCost, calculate(testCase),
+                    testCase.id + " expected cost");
+        }
+    }
+
+    private static TestCase findCase(String id) {
+        for (TestCase testCase : cases()) {
+            if (testCase.id.equals(id)) {
+                return testCase;
+            }
+        }
+        throw new IllegalArgumentException("Unknown test case: " + id);
     }
 
     @Test
@@ -138,6 +184,11 @@ class EnviosLegacyTest {
             this.expectedCost = expectedCost;
             this.expectsError = expectsError;
             this.expectedMessage = expectedMessage;
+        }
+
+        @Override
+        public String toString() {
+            return id + " - " + title;
         }
     }
 }

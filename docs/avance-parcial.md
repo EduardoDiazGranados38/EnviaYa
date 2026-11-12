@@ -483,9 +483,10 @@ eliminará al refactorizar.
 
 El código heredado se tradujo a Java en `EnviosLegacy.calc`, conservando sus
 reglas y defectos. La traducción se compiló antes de probarse. Los 42 casos CP
-de caja negra se automatizaron con JUnit Jupiter; se agregaron dos casos de
-caja blanca (`WB-14` para `flag=true` y `WB-15` para el límite heredado de 50
-kg).
+de caja negra se implementaron como pruebas JUnit Jupiter con nombres
+individuales por ID; se agregaron dos casos de caja blanca (`WB-14` para
+`flag=true` y `WB-15` para el límite heredado de 50 kg). Así, los reportes
+identifican cada caso en lugar de agruparlos bajo un único nombre de método.
 
 Herramientas usadas:
 
@@ -516,6 +517,8 @@ Archivos de informe generados localmente:
 - JaCoCo HTML: `target/site/jacoco/index.html`.
 - JUnit de texto: `target/surefire-reports/edu.uniguajira.enviaya.EnviosLegacyTest.txt`.
 - JUnit XML: `target/surefire-reports/TEST-edu.uniguajira.enviaya.EnviosLegacyTest.xml`.
+- [Captura de la ejecución JUnit del legado](evidence/pruebas-legado.png).
+- [Captura del informe de cobertura JaCoCo](evidence/cobertura-jacoco.png).
 
 ### 5.2 Resultado contra el código heredado
 

@@ -7,7 +7,8 @@ evolución de un calculador de costos de envío.
 
 El repositorio contiene el borrador documentado de las Partes 1–5, la
 traducción Java del código heredado y la primera suite automatizada de JUnit.
-La línea base heredada reproduce fallos intencionales que están documentados.
+La línea base heredada reproduce fallos intencionales que están documentados,
+con capturas de ejecución y cobertura.
 
 ## Parámetros personalizados
 
@@ -34,8 +35,8 @@ Código estudiantil: `182310040`
 
 1. Corregir los defectos registrados en la rama correspondiente y mantener la
    regresión en verde.
-2. Refactorizar y probar la
-   evolución de zona insular.
+2. Refactorizar el cálculo.
+3. Implementar y probar la evolución de zona insular.
 
 El repositorio local está vinculado con GitHub. La etiqueta `v1.0.0` identifica
 la traducción Java del código heredado, todavía sin corregir.
