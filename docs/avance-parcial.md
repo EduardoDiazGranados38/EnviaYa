@@ -733,15 +733,45 @@ las [notas 2.0.0](notas-version-2.0.0.md) y
 [2.1.0](notas-version-2.1.0.md) documentan los cambios integrados. El proyecto
 Maven en `main` indica la versión estable `2.1.0`.
 
-Historial de integración y etiquetas (`git log --oneline --graph --decorate --all`):
+Historial de integración y etiquetas, capturado al publicar `v2.1.0`
+(`git log --oneline --graph --decorate --all`):
 
 ```text
-Se completará después de crear las etiquetas v2.0.0 y v2.1.0.
+*   bc25101 (HEAD -> main, tag: v2.1.0, origin/main, origin/HEAD) Merge pull request #4 from EduardoDiazGranados38/release/2.1.0
+|\
+| * f2287e0 (origin/release/2.1.0, release/2.1.0) release: prepare EnvíaYa 2.1.0
+|/
+*   1d19e32 Merge pull request #3 from EduardoDiazGranados38/feat/CR-00-zona-insular
+|\
+| * b716cb0 (origin/feat/CR-00-zona-insular, feat/CR-00-zona-insular) feat: add insular shipping zone CR-00
+* | f389a7f (tag: v2.0.0) Merge pull request #2 from EduardoDiazGranados38/refactor/estrategia
+|\|
+| * 0b8ab27 (origin/refactor/estrategia, refactor/estrategia) docs: report actual commit time span
+| * 2769f40 refactor: complete zone strategy and document maintenance
+| * 0d29154 refactor: split shipping calculation steps
+|/
+*   64483a7 Merge pull request #1 from EduardoDiazGranados38/fix/DEF-06
+|\
+| * a7fad02 (origin/fix/DEF-06, fix/DEF-06) fix: round shipping costs to nearest hundred
+| * eead423 (origin/fix/DEF-05, fix/DEF-05) fix: apply weekend surcharge on Saturday
+| * bdeb885 (origin/fix/DEF-04, fix/DEF-04) fix: validate shipping day range
+| * f65dc7b (origin/fix/DEF-03, fix/DEF-03) fix: reject unsupported shipping zones
+| * e53cf44 (origin/fix/DEF-02, fix/DEF-02) fix: correct invalid weight error message
+| * f727a75 (origin/fix/DEF-01, fix/DEF-01) fix: validate personalized maximum weight
+| * 0fc9494 (origin/test/suite, test/suite) test: isolate PMAX validation from error text
+| * 6b2dc0d test: improve baseline evidence and case reporting
+| * d30671c test: automate legacy shipping calculator cases
+|/
+* 45d3bc1 (tag: v1.0.0) feat: add inherited Java shipping calculator baseline
+* 3436bd0 docs: complete tariff-boundary traceability
+* dfcab05 docs: add assignment progress through part 4
 ```
 
-El historial actual conserva las fechas reales y muestra commits entre las
-19:49 y las 21:54 del 11 de noviembre. Los cambios se registraron en commits
-progresivos a distintas horas; no se reescriben fechas.
+El historial preserva las fechas reales: los commits visibles van de las
+19:49 a las 22:36 del 11 de noviembre. Los cambios se registraron
+progresivamente a distintas horas; no se reescribieron fechas. La etiqueta
+`v2.0.0` marca la integración de la refactorización, pero el POM en ese punto
+era `2.0.0-SNAPSHOT`; `v2.1.0` sí contiene el POM estable `2.1.0`.
 
 ## Parte 8 — Solicitud de cambio y análisis de impacto
 
