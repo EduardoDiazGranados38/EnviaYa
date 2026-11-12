@@ -63,6 +63,6 @@ public final class EnviosLegacy {
         if (flag) {
             System.out.println("costo: " + t);
         }
-        return (int) (t / 100) * 100;
+        return (int) (Math.round(t / 100.0) * 100);
     }
 }

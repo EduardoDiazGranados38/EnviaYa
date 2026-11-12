@@ -580,9 +580,9 @@ fallos de prueba. Se recalculará para la versión final usando el mismo criteri
 
 ### 5.6 Avance de correcciones
 
-Las correcciones se trabajan en ramas independientes basadas en la suite de
-pruebas; no modifican la etiqueta `v1.0.0` ni reemplazan sus resultados
-históricos.
+Las correcciones se trabajan en ramas secuenciales: cada rama incorpora los
+arreglos anteriores y uno nuevo. No modifican la etiqueta `v1.0.0` ni
+reemplazan sus resultados históricos.
 
 | Rama | Defecto | Cambio | Verificación |
 |---|---|---|---|
@@ -591,6 +591,7 @@ históricos.
 | `fix/DEF-03` | DEF-03 | Se rechazan las zonas distintas de `urbana`, `rural` y `nacional`. | CP-05 pasa; la regresión completa ejecuta 44 pruebas: 25 pasan y 19 siguen fallando por defectos pendientes. |
 | `fix/DEF-04` | DEF-04 | Se rechazan los días menores que 1 o mayores que 7. | CP-06 y CP-07 pasan; la regresión completa ejecuta 44 pruebas: 27 pasan y 17 siguen fallando por defectos pendientes. |
 | `fix/DEF-05` | DEF-05 | El recargo de fin de semana aplica los días 6 y 7. | CP-15, CP-16 y CP-17 pasan; la regresión completa ejecuta 44 pruebas: 36 pasan y 8 siguen fallando por DEF-06 (redondeo). |
+| `fix/DEF-06` | DEF-06 | Se redondea al múltiplo de $100 más cercano, con empates hacia arriba. | CP-18, CP-21, CP-24, CP-27, CP-32, CP-34, CP-35 y CP-37 pasan; las 44 pruebas de regresión pasan. |
 
 La tabla de la sección 5.2 conserva la medición de la línea base heredada
 (21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a
