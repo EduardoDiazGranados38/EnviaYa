@@ -116,7 +116,7 @@ Los casos CP se detallan en la Parte 3.
 |---|---|---|
 | R1 | HU-01 | CP-01–CP-04, CP-25, CP-27 |
 | R2 | HU-01 | CP-05–CP-07 |
-| R3 | HU-01 | CP-03, CP-08–CP-11, CP-26–CP-27, CP-41–CP-42 |
+| R3 | HU-01 | CP-03, CP-08–CP-11, CP-25–CP-27, CP-41–CP-42 |
 | R4 | HU-02 | CP-12–CP-14 |
 | R5 | HU-02 | CP-15–CP-17, CP-28–CP-33, CP-35–CP-36, CP-38, CP-40 |
 | R6 | HU-03 | CP-18–CP-21, CP-28, CP-30, CP-32–CP-40 |
