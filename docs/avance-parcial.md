@@ -596,3 +596,22 @@ reemplazan sus resultados históricos.
 La tabla de la sección 5.2 conserva la medición de la línea base heredada
 (21 aprobadas y 23 fallidas); no debe confundirse con la regresión posterior a
 las correcciones.
+
+## Parte 6 — Refactorización
+
+### 6.1 Descomposición del cálculo y eliminación de `flag`
+
+En la rama `refactor/calculator`, el método `calc` se separó en pasos privados
+con responsabilidades concretas: validación de peso, zona y día; tarifa base;
+recargos; descuentos; mínimo; y redondeo. La secuencia de negocio y los
+resultados de los casos existentes se mantienen.
+
+Se retiró el parámetro `flag` y su impresión por consola, según el alcance de
+la refactorización. Por ello, `WB-14`, cuya única finalidad era cubrir esa
+rama de impresión, deja de aplicar; no se reemplaza por una prueba de
+comportamiento que ya no existe. La suite ejecuta ahora los 42 casos de caja
+negra y WB-15: **43 pruebas aprobadas, 0 fallidas**.
+
+La implementación de la estrategia para reglas de zona y la evolución insular
+quedan para los siguientes pasos. La rama se mantiene separada de `main` hasta
+completar y verificar esa etapa.

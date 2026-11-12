@@ -8,61 +8,87 @@ public final class EnviosLegacy {
     private static final double RECARGO_NACIONAL = 0.40;
     private static final double DESC_VIP = 0.10;
     private static final double RECARGO_FINDE = 2000.0;
+    private static final double TARIFA_MINIMA = 5000.0;
+    private static final double INCREMENTO_REDONDEO = 100.0;
 
     private EnviosLegacy() {
     }
 
-    public static int calc(double p, String z, String c, int d, String cup, boolean flag) {
-        if (p <= 0 || p > PMAX) {
+    public static int calc(double p, String z, String c, int d, String cup) {
+        validateWeight(p);
+        validateZone(z);
+        validateDay(d);
+
+        double total = baseTariff(p);
+        total = applyZoneSurcharge(total, z);
+        total = applyWeekendSurcharge(total, d);
+        total = applyCustomerDiscount(total, c);
+        total = applyCouponDiscount(total, cup);
+        total = Math.max(total, TARIFA_MINIMA);
+
+        return roundToHundred(total);
+    }
+
+    private static void validateWeight(double weight) {
+        if (weight <= 0 || weight > PMAX) {
             throw new IllegalArgumentException("peso inválido");
         }
+    }
 
-        double t;
-        if (p <= L1) {
-            t = 6000;
-        } else if (p <= L2) {
-            t = 9000;
-        } else {
-            t = 9000 + (p - L2) * 800;
-        }
-
-        if ("urbana".equals(z)) {
-            t = t;
-        } else if ("rural".equals(z)) {
-            t = t + t * RECARGO_RURAL;
-        } else if ("nacional".equals(z)) {
-            t = t + t * RECARGO_NACIONAL;
-        } else {
+    private static void validateZone(String zone) {
+        if (!"urbana".equals(zone) && !"rural".equals(zone) && !"nacional".equals(zone)) {
             throw new IllegalArgumentException("zona inválida");
         }
+    }
 
-        if (d < 1 || d > 7) {
+    private static void validateDay(int day) {
+        if (day < 1 || day > 7) {
             throw new IllegalArgumentException("día inválido");
         }
+    }
 
-        if (d >= 6) {
-            t = t + RECARGO_FINDE;
+    private static double baseTariff(double weight) {
+        if (weight <= L1) {
+            return 6000;
         }
+        if (weight <= L2) {
+            return 9000;
+        }
+        return 9000 + (weight - L2) * 800;
+    }
 
-        if ("frecuente".equals(c)) {
-            t = t - t * 0.05;
+    private static double applyZoneSurcharge(double total, String zone) {
+        if ("rural".equals(zone)) {
+            return total + total * RECARGO_RURAL;
         }
-        if ("vip".equals(c)) {
-            t = t - t * DESC_VIP;
+        if ("nacional".equals(zone)) {
+            return total + total * RECARGO_NACIONAL;
         }
-        if (cup != null) {
-            if ("ENVIO10".equals(cup)) {
-                t = t - t * 0.10;
-            }
-        }
+        return total;
+    }
 
-        if (t < 5000) {
-            t = 5000;
-        }
+    private static double applyWeekendSurcharge(double total, int day) {
+        return day >= 6 ? total + RECARGO_FINDE : total;
+    }
 
-        if (flag) {
-            System.out.println("costo: " + t);
+    private static double applyCustomerDiscount(double total, String customer) {
+        if ("frecuente".equals(customer)) {
+            total = total - total * 0.05;
         }
-        return (int) (Math.round(t / 100.0) * 100);
+        if ("vip".equals(customer)) {
+            total = total - total * DESC_VIP;
+        }
+        return total;
+    }
+
+    private static double applyCouponDiscount(double total, String coupon) {
+        if ("ENVIO10".equals(coupon)) {
+            return total - total * 0.10;
+        }
+        return total;
+    }
+
+    private static int roundToHundred(double total) {
+        return (int) (Math.round(total / INCREMENTO_REDONDEO) * INCREMENTO_REDONDEO);
     }
 }
