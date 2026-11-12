@@ -7,9 +7,8 @@
 **Estudiante:** Eduardo Jose Diazgranados Mejia
 
 **Código estudiantil:** 182310040
-**Estado:** Partes 1–6 implementadas; solicitud CR-00 de la Parte 8 implementada
-en una rama separada. Parte 7 está en progreso; faltan integrar y etiquetar
-las versiones.
+**Estado:** Partes 1–8 implementadas e integradas en `main`. Versiones
+`2.0.0` y `2.1.0` etiquetadas; la suite final tiene 53 pruebas aprobadas.
 
 > Los resultados de la Parte 3 son expectativas calculadas manualmente. La
 > Parte 5 registra la ejecución real contra la traducción Java del código
@@ -709,10 +708,10 @@ Evidencias de esta versión:
 - [JUnit: 5 pruebas de Estrategia aprobadas](evidence/pruebas-estrategias-zona.png).
 - [JaCoCo: cobertura de la implementación refactorizada](evidence/cobertura-refactorizada.png).
 
-La implementación está en `refactor/estrategia`, separada de `main`; la
-integración de esta rama está pendiente como parte de la Parte 7.
+La refactorización se integró en `main` mediante la PR #2 y la solicitud
+insular mediante la PR #3.
 
-## Parte 7 — Gestión de configuración (en progreso)
+## Parte 7 — Gestión de configuración
 
 ### Ramas e integración
 
@@ -720,24 +719,26 @@ integración de esta rama está pendiente como parte de la Parte 7.
 - `test/suite` mantiene el trabajo de automatización.
 - `fix/DEF-01` a `fix/DEF-06` identifican las correcciones individuales; la
   secuencia se integró en `main` mediante la PR #1.
-- La rama local `refactor/estrategia` contiene la descomposición, la
-  eliminación de `flag` y el patrón Estrategia. Aún no se ha publicado ni
-  integrado en `main`.
+- La refactorización se integró desde `refactor/estrategia` mediante la PR #2.
+- La zona insular se integró desde `feat/CR-00-zona-insular` mediante la PR #3,
+  después de cambiar su base a `main`.
 
 ### Versionado semántico y notas
 
 El proyecto mantiene `v1.0.0` para la línea base. El retiro del argumento
-público `flag` rompe la firma anterior, por lo que la próxima versión estable
-será **2.0.0** (cambio MAJOR); Maven indica `2.0.0-SNAPSHOT` en
-`refactor/estrategia`. La rama de la solicitud insular avanza a
-`2.1.0-SNAPSHOT`. La zona insular de Parte 8 agrega comportamiento compatible y se documentará
-como versión menor **2.1.0**. El [CHANGELOG](../CHANGELOG.md) usa el formato
-Keep a Changelog; las [notas de versión 2.0.0](notas-version-2.0.0.md) y
-[2.1.0](notas-version-2.1.0.md) están marcadas como borrador hasta que se
-integren y etiqueten las versiones.
+público `flag` rompió la firma anterior, por lo que `v2.0.0` es un cambio
+MAJOR. La zona insular agrega comportamiento compatible y se publicó como
+cambio MINOR `v2.1.0`. El [CHANGELOG](../CHANGELOG.md) usa Keep a Changelog;
+las [notas 2.0.0](notas-version-2.0.0.md) y
+[2.1.0](notas-version-2.1.0.md) documentan los cambios integrados. El proyecto
+Maven en `main` indica la versión estable `2.1.0`.
 
-La salida completa de `git log --oneline --graph --all` se añadirá al cerrar
-la integración y publicar las etiquetas, para que refleje el historial final.
+Historial de integración y etiquetas (`git log --oneline --graph --decorate --all`):
+
+```text
+Se completará después de crear las etiquetas v2.0.0 y v2.1.0.
+```
+
 El historial actual conserva las fechas reales y muestra commits entre las
 19:49 y las 21:54 del 11 de noviembre. Los cambios se registraron en commits
 progresivos a distintas horas; no se reescriben fechas.
@@ -792,11 +793,10 @@ inválida`, confirmando el rojo esperado. Después se implementaron la estrategi
 insular, el recargo del 70 % y la política de ignorar cupones.
 
 Verificación con `mvn clean verify`: **53 pruebas, 53 aprobadas, 0 fallidas**.
-La versión objetivo pasa de `2.0.0` a `2.1.0` como cambio MINOR compatible,
+La versión pasó de `2.0.0` a `2.1.0` como cambio MINOR compatible,
 documentada en el [CHANGELOG](../CHANGELOG.md) y en las [notas de versión
-2.1.0](notas-version-2.1.0.md). La etiqueta estable `v2.1.0` se creará después
-de integrar y validar la cadena de PRs; no se etiqueta un cambio aún no
-integrado.
+2.1.0](notas-version-2.1.0.md). La solicitud está integrada y la versión
+estable se identifica con la etiqueta `v2.1.0`.
 
 JaCoCo 0.8.12 midió la solución con la solicitud CR-00: **221/221
 instrucciones (100 %), 56/56 líneas (100 %) y 30/30 ramas (100 %)**. La
