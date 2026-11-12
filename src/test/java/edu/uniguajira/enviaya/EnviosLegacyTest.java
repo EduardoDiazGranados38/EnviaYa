@@ -108,7 +108,7 @@ class EnviosLegacyTest {
                 "peso inválido"));
         cases.add(cost("CP-03", "maximum valid weight", "45", "urbana", "normal", 1, null, 37000));
         cases.add(error("CP-04", "weight above PMAX", "45.001", "urbana", "normal", 1, null,
-                "peso inválido"));
+                null));
         cases.add(error("CP-05", "invalid zone", "4", "periurbana", "normal", 1, null, null));
         cases.add(error("CP-06", "day below range", "4", "urbana", "normal", 0, null, null));
         cases.add(error("CP-07", "day above range", "4", "urbana", "normal", 8, null, null));

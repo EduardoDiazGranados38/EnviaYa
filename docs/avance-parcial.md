@@ -557,7 +557,7 @@ se corrige porque el requisito exige el texto exacto.
 
 | ID | Título y requisito | Reproducción | Esperado | Obtenido | Severidad / prioridad |
 |---|---|---|---|---|---|
-| DEF-01 | Límite máximo fijo incorrecto (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L15) | CP-04: `45,001 kg`, urbana, normal, día 1 | Excepción “peso inválido” porque PMAX=45 | Se acepta; devuelve $37.000 | Alta / P1: permite procesar un peso que la especificación prohíbe. |
+| DEF-01 | Límite máximo fijo incorrecto (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L15) | CP-04: `45,001 kg`, urbana, normal, día 1 | Se lanza una excepción porque PMAX=45 | Se acepta; devuelve $37.000 | Alta / P1: permite procesar un peso que la especificación prohíbe. |
 | DEF-02 | Mensaje de peso no coincide (R1), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L16) | CP-01 o CP-02 con peso inválido | “peso inválido” | Lanza excepción con “peso invalido” (sin tilde) | Baja / P3: incumple el contrato textual, aunque sí rechaza el peso. |
 | DEF-03 | No se rechaza una zona inválida (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L28) | CP-05: `4 kg`, zona `periurbana`, normal, día 1 | Excepción | Continúa sin recargo y devuelve $9.000 | Alta / P1: procesa entradas de zona no permitidas con tarifa incorrecta. |
 | DEF-04 | No se valida el rango del día (R2), [EnviosLegacy.java](../src/main/java/edu/uniguajira/enviaya/EnviosLegacy.java#L36) | CP-06: día 0; CP-07: día 8 | Excepción para ambos | Día 0 devuelve $9.000; día 8 se acepta y agrega el recargo, $11.000 | Alta / P1: acepta valores fuera del dominio y el día 8 altera el precio. |
